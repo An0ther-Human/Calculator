@@ -47,7 +47,6 @@ let temp;
 let text;
 let useCounter = 0;
 function isOperator(e){
-    // console.log(e.target.textContent);
     if (!useCounter >= 1){
         console.log(userInput)
         if (e.target.textContent == '.'){
@@ -56,8 +55,6 @@ function isOperator(e){
                 input.textContent = userInput;
             }else{
                 text = userInput.split(' ');
-                // console.log(text)
-                // console.log(text[text.length-1].indexOf('.'))
                 if (text[text.length-1].indexOf('.') == -1){
                     if (text[text.length-1] ==''){
                         userInput += '0.';
@@ -69,11 +66,9 @@ function isOperator(e){
                 }
             }
         }else if (!e.target.classList.contains('noDisplay') && !e.target.classList.contains('operator')){
-            // input.textContent += e.target.textContent;
                 userInput += e.target.textContent;
                 input.textContent = userInput;
         }else if (!e.target.classList.contains('noDisplay')){
-            // input.textContent += ` ${e.target.textContent} `
             if (input.textContent.length != 0){
                 if (userInput.charAt(userInput.length-1) != ' '){
                     userInput += ` ${e.target.textContent} `;
@@ -86,13 +81,8 @@ function isOperator(e){
             }
         }else if(e.target.id == 'equal'){
             text = userInput.split(' ')
-            // console.log(userInput)
-            // console.log(text)
             let start;
             let previousValue;
-            // if (text[1] != '×'){
-            //     start = Number(text[i-1]);
-            // }
             for(i = 0; i < text.length; i++){
                 if ((text[i] == '×') || (text [i] == '÷')){
                     if ((text[i-2]!= '×') && (text[i-2]!= '÷')){
@@ -110,43 +100,6 @@ function isOperator(e){
                 }else{
                     noMultiDivide.push(text[i]);
                 }
-                // switch(text[i]){
-                //     case '×':
-                //         if (text[i-2]!= '×'){
-                //             start = Number(text[i-1]);
-                //             temp = multiply(start, Number(text[i+1]));
-                //             previousValue = temp;
-                //         }else{
-                //             start = previousValue;
-                //             temp = multiply(start, Number(text[i+1]));
-                //             previousValue = temp;
-                //         }
-                //         noMultiDivide.pop()
-                //         noMultiDivide.push(temp);
-                //         i++
-                //         break;   
-                //     case '÷':
-                //         if (Number(text[i+1]) != 0){
-                //             if (text[i-2]!= '÷'){
-                //                 start = Number(text[i-1]);
-                //                 temp = divide(start, Number(text[i+1]));
-                //                 previousValue = temp;
-                //             }else{
-                //                 start = previousValue;
-                //                 temp = divide(start, Number(text[i+1]));
-                //                 previousValue = temp;
-                //             }
-                //             noMultiDivide.pop()
-                //             noMultiDivide.push(temp);
-                //             i++
-                //         }else{
-                //             noMultiDivide.push('Calculation failed.');
-                //             i = text.length;
-                //         }
-                //         break;
-                //     default:
-                //         noMultiDivide.push(text[i]);       
-                // }  
             }
             start = Number(noMultiDivide[0]);
             console.log(noMultiDivide)
@@ -157,17 +110,6 @@ function isOperator(e){
                             answer = operate(start, Number(noMultiDivide[i+1]), noMultiDivide[i]);
                             start = answer;
                         }
-                        // switch(noMultiDivide[i]){
-                        //     case '+':
-                        //         answer = add(start,Number(noMultiDivide[i+1]));
-                        //         start = answer;
-                        //         console.log(answer)
-                        //         break;
-                        //     case '-':
-                        //         answer = subtract(start,Number(noMultiDivide[i+1]));
-                        //         start = answer;
-                        //         break;
-                        // }
                     }else{
                         answer = noMultiDivide[0];
                     }
@@ -175,9 +117,7 @@ function isOperator(e){
             }else{
                 answer = 'Calculation failed.';
             }
-            // console.log(noMultiDivide)
             ans.textContent = answer;
-            // console.log(answer)
             useCounter++
         }else if(e.target.id == 'backspace'){
             if (input.textContent.charAt(input.textContent.length -1) == ' '){
