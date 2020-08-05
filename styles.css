@@ -79,10 +79,17 @@ button{
     color: floralwhite;
     display: inline-block;
     margin: 10px;
-    box-shadow: 5px 5px 5px black;
+    box-shadow: 5px 9px black;
     text-align:center;
 }
-button:focus {outline:0;}
+
+button:focus {
+    outline:0;
+}
+
+button:hover{
+    filter: brightness(1.1)
+}
 
 #ansBtn{
     font-size: 23px;
