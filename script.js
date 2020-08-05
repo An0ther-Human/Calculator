@@ -65,6 +65,7 @@ function isOperator(e){
     let has2Class = !e.target.classList.contains('noDisplay') && !e.target.classList.contains('operator');
     let hasClass = !e.target.classList.contains('noDisplay');
     let target = e.target;
+
     if (e.type != 'click'){
         if (validKeycodes.includes(e.keyCode)){
             let pressedBtn = document.querySelector(`button[data-key="${e.keyCode}"]`);
@@ -105,7 +106,10 @@ function isOperator(e){
         } 
     }
     if (content == '.'){
-        if (!useCounter >= 1){
+        if (input.textContent.length >= 18){
+            ans.textContent = 'Too many number.';
+            return;
+        }else if (!useCounter >= 1){
             if (input.textContent.length == 0){
                 userInput = '0.'
                 input.textContent = userInput;
@@ -123,12 +127,18 @@ function isOperator(e){
             }
         }
     }else if (has2Class){
-        if (!useCounter >= 1){
+        if (input.textContent.length >= 18){
+            ans.textContent = 'Too many number.';
+            return;
+        }else if (!useCounter >= 1){
             userInput += content;
             input.textContent = userInput;
         }
     }else if (hasClass){
-        if (!useCounter >= 1){
+        if (input.textContent.length >= 18){
+            ans.textContent = 'Too many number.';
+            return;
+        }else if (!useCounter >= 1){
             if (input.textContent.length != 0){
                 if (userInput.charAt(userInput.length-1) != ' '){
                     userInput += ` ${content} `;
@@ -141,7 +151,10 @@ function isOperator(e){
             }
         }
     }else if(target.id == 'equal'){
-        if (userInput.length != 0){
+        if (input.textContent.length >= 18){
+            ans.textContent = 'Too many number.';
+            return;
+        }else if (userInput.length != 0){
             if (!useCounter >= 1){
                 text = userInput.split(' ')
                 let start;
@@ -184,6 +197,7 @@ function isOperator(e){
             }
         }
     }else if(target.id == 'backspace'){
+        ans.textContent = '';
         if (!useCounter >= 1){
             if (input.textContent.charAt(input.textContent.length -1) == ' '){
                 input.textContent = input.textContent.slice(0,-3);
@@ -192,8 +206,9 @@ function isOperator(e){
                 input.textContent = input.textContent.slice(0,-1);
                 userInput = userInput.slice(0,-1);
             }
-        }
-    }else if (target.id == 'ansBtn'){
+        }    
+    }
+    if (target.id == 'ansBtn'){
         if (useCounter != 0){
             ans.textContent = null;
             noMultiDivide = [];
@@ -201,7 +216,8 @@ function isOperator(e){
             input.textContent = userInput;
             useCounter = 0;
         }
-    }else if(target.id == 'clear'){
+    }
+    if(target.id == 'clear'){
         userInput = '';
         input.textContent = '';
         ans.textContent = null;
