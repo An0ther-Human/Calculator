@@ -37,9 +37,16 @@ function operate(num1, num2, operator){
 const buttons = document.querySelectorAll('button');
 for (i = 0; i < buttons.length; i++){
     buttons[i].addEventListener('click', isOperator);
+    buttons[i].addEventListener('mousedown', e => {
+        e.target.setAttribute('style','box-shadow: 5px 5px black; transform: translateY(5px);')
+    })
+    buttons[i].addEventListener('mouseup', e => {
+        e.target.setAttribute('style', 'box-shadow: 5px 9px black; transform: translateY(0px);')
+    })
     // buttons[i].addEventListener('keydown', isOperator);
 }
 window.addEventListener('keydown', isOperator);
+window.addEventListener('keyup', unPress)
 
 
 const input = document.querySelector('#input');
@@ -58,9 +65,6 @@ function isOperator(e){
     let has2Class = !e.target.classList.contains('noDisplay') && !e.target.classList.contains('operator');
     let hasClass = !e.target.classList.contains('noDisplay');
     let target = e.target;
-
-
-    
     if (e.type != 'click'){
         if (validKeycodes.includes(e.keyCode)){
             let pressedBtn = document.querySelector(`button[data-key="${e.keyCode}"]`);
@@ -68,6 +72,11 @@ function isOperator(e){
             has2Class = !pressedBtn.classList.contains('operator') && !pressedBtn.classList.contains('noDisplay');
             hasClass = !pressedBtn.classList.contains('noDisplay');
             target = pressedBtn;
+
+            console.log(pressedBtn.style)
+            pressedBtn.setAttribute('style', 'box-shadow: 5px 5px black; transform: translateY(5px)');
+            console.log(pressedBtn.style)
+
             if (e.keyCode == 187){
                 pressedBtn = document.querySelector(`button[data-key2="187"]`);
                 content = pressedBtn.textContent;
@@ -236,4 +245,11 @@ function keyBorardOperation(e){
     console.log(!pressedBtn.classList.contains('noDisplay'))
     console.log(pressedBtn.id)
     // console.log(pressedBtn.type)
+}
+
+function unPress(e){
+    if (validKeycodes.includes(e.keyCode)){
+        let pressedBtn = document.querySelector(`button[data-key="${e.keyCode}"]`);
+        pressedBtn.setAttribute('style', 'box-shadow: 5px 9px black; transform: translateY(0px);')
+    }
 }
