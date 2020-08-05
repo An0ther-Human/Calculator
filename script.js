@@ -43,7 +43,6 @@ for (i = 0; i < buttons.length; i++){
     buttons[i].addEventListener('mouseup', e => {
         e.target.setAttribute('style', 'box-shadow: 5px 9px black; transform: translateY(0px);')
     })
-    // buttons[i].addEventListener('keydown', isOperator);
 }
 window.addEventListener('keydown', isOperator);
 window.addEventListener('keyup', unPress)
@@ -73,9 +72,7 @@ function isOperator(e){
             hasClass = !pressedBtn.classList.contains('noDisplay');
             target = pressedBtn;
 
-            console.log(pressedBtn.style)
             pressedBtn.setAttribute('style', 'box-shadow: 5px 5px black; transform: translateY(5px)');
-            console.log(pressedBtn.style)
 
             if (e.keyCode == 187){
                 pressedBtn = document.querySelector(`button[data-key2="187"]`);
@@ -208,34 +205,6 @@ function isOperator(e){
         useCounter = 0;
     }
 }
-
-// const ansBtn = document.querySelector('#ansBtn');
-// ansBtn.addEventListener('click', operateOnPreviousAns)
-// window.addEventListener('keydown', operateOnPreviousAns);
-
-// function operateOnPreviousAns(e){
-//     if (useCounter != 0){
-//         ans.textContent = null;
-//         noMultiDivide = [];
-//         userInput = answer.toString();
-//         input.textContent = userInput;
-//         useCounter = 0;
-//     }
-// }
-
-// const clear = document.querySelector('#clear');
-// clear.addEventListener('click', resetCalculator)
-
-// function resetCalculator(e){
-//     userInput = '';
-//     input.textContent = '';
-//     ans.textContent = null;
-//     noMultiDivide = [];
-//     temp = null;
-//     text = null;
-//     useCounter = 0;
-// }
-
 
 function keyBorardOperation(e){
     let pressedBtn = document.querySelector(`button[data-key="${e.keyCode}"]`);
