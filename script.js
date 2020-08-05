@@ -50,7 +50,8 @@ let noMultiDivide = [];
 let temp;
 let text;
 let useCounter = 0;
-const validKeycodes = [55, 56, 57, 191, 52, 53, 54, 56, 49, 50, 51, 189, 48, 190, 65, 187, 67, 8, 69]
+const validKeycodes = [55, 56, 57, 191, 52, 53, 54, 56, 49, 50, 51, 189, 48, 190, 65, 187, 67, 8,69];
+const validShiftKeycodes = [56, 187];
 function isOperator(e){
     console.log(e.type)
     let content = e.target.textContent;
@@ -58,6 +59,8 @@ function isOperator(e){
     let hasClass = !e.target.classList.contains('noDisplay');
     let target = e.target;
 
+
+    
     if (e.type != 'click'){
         if (validKeycodes.includes(e.keyCode)){
             let pressedBtn = document.querySelector(`button[data-key="${e.keyCode}"]`);
@@ -65,11 +68,32 @@ function isOperator(e){
             has2Class = !pressedBtn.classList.contains('operator') && !pressedBtn.classList.contains('noDisplay');
             hasClass = !pressedBtn.classList.contains('noDisplay');
             target = pressedBtn;
+            if (e.keyCode == 187){
+                pressedBtn = document.querySelector(`button[data-key2="187"]`);
+                content = pressedBtn.textContent;
+                has2Class = !pressedBtn.classList.contains('operator') && !pressedBtn.classList.contains('noDisplay');
+                hasClass = !pressedBtn.classList.contains('noDisplay');
+                target = pressedBtn;
+            }
+            if (e.shiftKey){
+                if (validShiftKeycodes.includes(e.keyCode)){
+                    switch(e.keyCode){
+                        case 56:
+                            content = '×';
+                            has2Class = false;
+                            hasClass = true;
+                            break;
+                        case 187:
+                            content = '+';
+                            has2Class = false;
+                            hasClass = true;
+                    }
+                }
+            }
         }else{
             return;
         } 
     }
-    console.log(content)
     if (content == '.'){
         if (!useCounter >= 1){
             if (input.textContent.length == 0){
