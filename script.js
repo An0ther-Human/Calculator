@@ -58,6 +58,7 @@ let text;
 let useCounter = 0;
 const validKeycodes = [55, 56, 57, 191, 52, 53, 54, 56, 49, 50, 51, 189, 48, 190, 65, 187, 67, 8,69];
 const validShiftKeycodes = [56, 187];
+let yesShift = false;
 function isOperator(e){
     console.log(e.type)
     let content = e.target.textContent;
@@ -72,7 +73,7 @@ function isOperator(e){
             hasClass = !pressedBtn.classList.contains('noDisplay');
             target = pressedBtn;
 
-            pressedBtn.setAttribute('style', 'box-shadow: 5px 5px black; transform: translateY(5px)');
+            
 
             if (e.keyCode == 187){
                 pressedBtn = document.querySelector(`button[data-key2="187"]`);
@@ -85,17 +86,20 @@ function isOperator(e){
                 if (validShiftKeycodes.includes(e.keyCode)){
                     switch(e.keyCode){
                         case 56:
-                            content = '×';
+                            pressedBtn = document.querySelector(`button[data-key2="56"]`);
+                            content = pressedBtn.textContent;
                             has2Class = false;
                             hasClass = true;
                             break;
                         case 187:
+                            pressedBtn = document.querySelector(`button[data-key="187"]`);
                             content = '+';
                             has2Class = false;
                             hasClass = true;
                     }
                 }
             }
+            pressedBtn.setAttribute('style', 'box-shadow: 5px 5px black; transform: translateY(5px)');
         }else{
             return;
         } 
@@ -137,45 +141,47 @@ function isOperator(e){
             }
         }
     }else if(target.id == 'equal'){
-        if (!useCounter >= 1){
-            text = userInput.split(' ')
-            let start;
-            let previousValue;
-            for(i = 0; i < text.length; i++){
-                if ((text[i] == '×') || (text [i] == '÷')){
-                    if ((text[i-2]!= '×') && (text[i-2]!= '÷')){
-                        start = Number(text[i-1]);
-                        temp = operate(start, Number(text[i+1]), text[i])
-                        previousValue = temp;
-                    }else{
-                        start = previousValue;
-                        temp = operate(start, Number(text[i+1]), text[i])
-                        previousValue = temp;
-                    }
-                    noMultiDivide.pop();
-                    noMultiDivide.push(temp);
-                    i++;
-                }else{
-                    noMultiDivide.push(text[i]);
-                }
-            }
-            start = Number(noMultiDivide[0]);
-            if (!noMultiDivide.includes('Calculation failed.')){
-                for(i =0; i<noMultiDivide.length; i++){
-                    if (noMultiDivide.includes('+') || noMultiDivide.includes('-')){
-                        if((noMultiDivide[i] == '+') || (noMultiDivide[i] == '-')){
-                            answer = operate(start, Number(noMultiDivide[i+1]), noMultiDivide[i]);
-                            start = answer;
+        if (userInput.length != 0){
+            if (!useCounter >= 1){
+                text = userInput.split(' ')
+                let start;
+                let previousValue;
+                for(i = 0; i < text.length; i++){
+                    if ((text[i] == '×') || (text [i] == '÷')){
+                        if ((text[i-2]!= '×') && (text[i-2]!= '÷')){
+                            start = Number(text[i-1]);
+                            temp = operate(start, Number(text[i+1]), text[i])
+                            previousValue = temp;
+                        }else{
+                            start = previousValue;
+                            temp = operate(start, Number(text[i+1]), text[i])
+                            previousValue = temp;
                         }
+                        noMultiDivide.pop();
+                        noMultiDivide.push(temp);
+                        i++;
                     }else{
-                        answer = noMultiDivide[0];
+                        noMultiDivide.push(text[i]);
                     }
                 }
-            }else{
-                answer = 'Calculation failed.';
+                start = Number(noMultiDivide[0]);
+                if (!noMultiDivide.includes('Calculation failed.')){
+                    for(i =0; i<noMultiDivide.length; i++){
+                        if (noMultiDivide.includes('+') || noMultiDivide.includes('-')){
+                            if((noMultiDivide[i] == '+') || (noMultiDivide[i] == '-')){
+                                answer = operate(start, Number(noMultiDivide[i+1]), noMultiDivide[i]);
+                                start = answer;
+                            }
+                        }else{
+                            answer = noMultiDivide[0];
+                        }
+                    }
+                }else{
+                    answer = 'Calculation failed.';
+                }
+                ans.textContent = answer;
+                useCounter++
             }
-            ans.textContent = answer;
-            useCounter++
         }
     }else if(target.id == 'backspace'){
         if (!useCounter >= 1){
@@ -206,19 +212,8 @@ function isOperator(e){
     }
 }
 
-function keyBorardOperation(e){
-    let pressedBtn = document.querySelector(`button[data-key="${e.keyCode}"]`);
-    console.log(pressedBtn);
-    console.log(pressedBtn.textContent);
-    console.log(!pressedBtn.classList.contains('operator') && !pressedBtn.classList.contains('nodisplay'))
-    console.log(!pressedBtn.classList.contains('noDisplay'))
-    console.log(pressedBtn.id)
-    // console.log(pressedBtn.type)
-}
-
 function unPress(e){
-    if (validKeycodes.includes(e.keyCode)){
-        let pressedBtn = document.querySelector(`button[data-key="${e.keyCode}"]`);
-        pressedBtn.setAttribute('style', 'box-shadow: 5px 9px black; transform: translateY(0px);')
+    for (i = 0; i < buttons.length; i++){
+        buttons[i].setAttribute('style', 'box-shadow: 5px 9px black; transform: translateY(0px);')
     }
 }
